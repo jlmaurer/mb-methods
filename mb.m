@@ -62,36 +62,51 @@ end
 % Bootstrap test using the residual bootstrap method (Fig. 2)
 function [out] = simple_bootstrap_test ()
 
-% parameters to test
-snrs = [2,50];
-snr.type = 'snr';
-xobs1 = [.04:.005:.1]; 
-xobs2 = xobs1+1; 
+    % parameters to test
+    snrs = [2,50];
+    snr.type = 'snr';
+    xobs1 = [.04:.005:.1]; 
+    xobs2 = xobs1+1; 
 
-% set other parameters
-N = 30; 
-M = .35; 
+    % set other parameters
+    N = 30; 
+    M = .35; 
 
-% toggle warnings off or on
-warning('off', 'all')
+    % toggle warnings off or on
+    warning('off', 'all')
 
-out = {};
-for k = 1:4
-    if mod(k,2)==0, snr.val = snrs(2); else, snr.val = snrs(1); end
-    if k<3, x = xobs2; else, x=xobs1; end
-    out{k} = mb('test_mb','boot_resid', x, N, M, snr);
-end
-figure; 
-histogram(out{1}.Potency, 'normalization','pdf')
-hold on
-histogram(out{2}.Potency, 'normalization','pdf')
-histogram(out{3}.Potency, 'normalization','pdf')
-histogram(out{4}.Potency, 'normalization','pdf')
-ax = axis; 
-plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k'); 
-xlim([0,1])
-legend('High noise, far station','Low noise, far stations', ...
-    'High noise, close stations','Low noise, Close stations')
+    out = {};
+    for k = 1:4
+        if mod(k,2)==0, snr.val = snrs(2); else, snr.val = snrs(1); end
+        if k<3, x = xobs2; else, x=xobs1; end
+        out{k} = mb('test_mb','boot_resid', x, N, M, snr);
+    end
+    
+    % plot results
+    figure; 
+    try
+        histogram(out{1}.Potency, 'normalization','pdf')
+        hold on
+        histogram(out{2}.Potency, 'normalization','pdf')
+        histogram(out{3}.Potency, 'normalization','pdf')
+        histogram(out{4}.Potency, 'normalization','pdf')
+    catch
+        nbins = 15; 
+        [h,x] = hist(out{1}.Potency,nbins);
+        bar(x,h./trapz(x,h),'style','histc')
+        hold on
+        [h,x] = hist(out{2}.Potency, nbins);
+        bar(x,h./trapz(x,h),'style','histc')
+        [h,x] = hist(out{3}.Potency, nbins);
+        bar(x,h./trapz(x,h),'style','histc')
+        [h,x] = hist(out{4}.Potencynbins);
+        bar(x,h./trapz(x,h),'style','histc')
+    end
+    ax = axis; 
+    plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k'); 
+    xlim([0,1])
+    legend('High noise, far station','Low noise, far stations', ...
+        'High noise, close stations','Low noise, Close stations') 
 end
 
 % changing N, Naive MCMC (Fig. 4a)
