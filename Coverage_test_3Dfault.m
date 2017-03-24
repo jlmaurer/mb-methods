@@ -6,8 +6,11 @@ clear
 %test_type =2;  % COBE
 test_type = 2; 
 
+% if flag = 1, use the data bootstrap. Otherwise use the residual bootstrap
+flag = 0; 
+
 %% Number of pdfs to make
-numModels = 20;
+numModels = 100;
 
 %% Set fault geometry
 % Use the following tests to replicate the paper figures: 
@@ -61,27 +64,18 @@ switch test_type
         Nboot = 400;     
         
         % call bootstrap function
-        [all_potencies] = bootstrapping_test_function_resids(Nboot, bounds(:,2),...
-            nPatch, numModels, patch_areas,data,G, sig, SIG);
-
-        % compute CI
-        YY = prctile(all_potencies, [50-conf_levels/2, 50+conf_levels/2]);
-        CI_lbs = YY(1:end/2, :); 
-        CI_ubs = YY(end/2+1:end, :); 
-        emp_perc = test_ci(CI_ubs, CI_lbs, actual_moment);
-        
+         [results] = bootstrapping_test_function (Nboot, numModels,fault, ...
+             data,solver_opts, flag);
     case 2
         % number of Mtest on the interval [0, maxM]
         nPs = 200; 
         
         % Call COBE
         [results] = cobe(data, fault, nPs,numModels,solver_opts);
-        
-        % compute coverage
-        results.truM = fault.truM; 
-        [emp_perc] = coverage_cobe(results, conf_levels,numModels);
 end
 
+results.truM = fault.truM; 
+[emp_perc] = coverage(results, conf_level, numModels, test_type);
 
 %% Plot Results
 
