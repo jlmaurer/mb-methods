@@ -109,27 +109,24 @@ G = Gss_hat + Gds_hat;
 end
 
 %% Make the fault model as discretized patches. 
-function [pm, patch_areas] = make_pm(fault, faults)
+function [pm, patch_areas] = make_pm(fault, fault_loc)
 % make the patch model
-%faults=[length, width, *depth, dip, strike(degrees), *north offset, *east offset]
-% *depth to top edge, north and east offsets refer to location of center of
-% bottom edge
-% faults=[SegLength(23:33) H*ones(size(SegLength(23:33))) zeros(size(SegLength(23:33))) -90*ones(size(SegLength(23:33))) strike(23:33) .5*(Segs(23:33,1)+Segs(23:33,2)) .5*(Segs(23:33,3)+Segs(23:33,4))];
-% faults=[faults; [SegLength(40:46) H*ones(size(SegLength(40:46))) zeros(size(SegLength(40:46))) -90*ones(size(SegLength(40:46))) strike(40:46) .5*(Segs(40:46,1)+Segs(40:46,2)) .5*(Segs(40:46,3)+Segs(40:46,4))]];
+%fault_loc=[length, width, *depth, dip, strike(degrees), *north offset, 
+% *east offset], *depth, north and east offsets refer to location of 
+% center of top edge. 
+%
+% NOTE: this code can only handle the simple geometries used in the tests
+% in the paper; more general geometries will not necessarily be handled
+% correclty here. 
 
-pm=[];
+fault_loc2 = fault_loc; 
+fault_loc2(4) = 180+fault_loc(4);
+fault_loc2(3) = fault_loc(3) - fault_loc(2)*sind(fault_loc(4)); 
+fault_loc2(6) = fault_loc(6) + fault_loc(2)*cosd(fault_loc(4)); 
+fault_loc = [fault_loc2, 1, 1, 0]; 
 
-for k=1:size(faults,1)
-   
-    %specify components of slip to be calculate ([strike-slip,dip-slip,opening]) -- e.g. [0 1 0] means dip slip only
-    dis_geom1  = [faults(k,:), [1 1 0]];
-    % move the fault so that the coordinates of the midpoint refer to the fault bottom as in Okada
-    dis_geom = movefault(dis_geom1);  
-
-    %% Create slip patches
-    pm = [pm; patchfault(dis_geom(1,1:7),fault.nhe(k),fault.nve)];
-
-end
+% Create slip patches
+pm = patchfault(fault_loc,fault.nhe,fault.nve);
 pm(:,3)=pm(:,3)+10^-4;   %sometimes a strange error if patch breaks surface
 
 % area of each fault patch in m^2
