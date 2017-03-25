@@ -18,3 +18,7 @@ the script, and changes needed to create each plot are listed.
 ## License
 This code is licensed under the MIT license. It is free to use and distribute. 
 
+## Acknowledgements
+The "patchfault.m" function was created by an unknown previous group member of the Crustal Deformation and Fault Mechanics
+group at Stanford University. Inspiration for this code came from other past group members, including Kaj Johnson and Jessica Murray. 
+

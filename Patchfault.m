@@ -1,4 +1,4 @@
-function [pm]=patchfault(m,i,j);
+function [pm]=patchfault(m,i,j)
 %PATCHFAULT    [pm]=patchfault(m,i,j)
 %
 %This function discretizes a fault model into i*j distinct patches.
@@ -69,9 +69,10 @@ function [pm]=patchfault(m,i,j);
 %                                   explain dip, depth, and dip slip;
 %                                   also corrected order of input for
 %                                   repmat
-%   Apr. 21, 2003	JRM         Added backwards compatibility for
-%				    input which only gives m vector
-%				    of length 7.
+%   Apr. 21, 2003		JRM         Added backwards compatibility for
+%				    				input which only gives m vector
+%				    				of length 7.
+% 	March 24, 2017 		JLM			Cleaned up comments
 %---------------------------------------------------------------------
  
 %Set constants
@@ -119,5 +120,6 @@ function [pm]=patchfault(m,i,j);
     if length(m) == 10
         pm(:,8:10)=repmat(m(8:10),n,1);
     end
-
+	
+end
 
