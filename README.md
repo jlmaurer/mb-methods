@@ -25,10 +25,13 @@ group at Stanford University. Inspiration for this code came from other past gro
 ## Examples
 The headers of the main files described above include examples for replicating each of the figures in the paper. 
 E.g. for the 1-D fault: 
+
  [out] = mb('simple_bootstrap_test');
+
  [out] = mb('compare_cobe_coble');
 
 For the 3-D fault tests, simply run 
-Coverage_test_3Dfault.m
+
+"Coverage_test_3Dfault.m"
 
 
