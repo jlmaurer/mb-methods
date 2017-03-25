@@ -23,16 +23,16 @@ This code is licensed under the MIT license. It is free to use and distribute.
 
 ## Acknowledgements
 The "patchfault.m" function was created by an unknown previous group member of the Crustal Deformation and Fault Mechanics
-group at Stanford University. Inspiration for this code came from other past group members, including Kaj Johnson and Jessica Murray. 
+group at Stanford University. Inspiration for some parts of this code came from other past group members, including Kaj Johnson and Jessica Murray. 
 
 ## Examples
 The headers of the main files described above include examples for replicating each of the figures in the paper. 
-E.g. for the 1-D fault: 
+Some examples for the 1-D fault: 
 
  [out] = mb('simple_bootstrap_test');
  [out] = mb('compare_cobe_coble');
 
-For the 3-D fault tests, simply run 
+and for the 3-D fault tests, simply run 
 
 "Coverage_test_3Dfault.m"
 
