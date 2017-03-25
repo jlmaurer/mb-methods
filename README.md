@@ -15,6 +15,9 @@ Coverage_test_3Dfault.m:
 This script calls a series of functions and can replicate Fig.'s 3 and 6c,d. Default values for the parameters are given in
 the script, and changes needed to create each plot are listed. 
 
+## Dependencies
+The mb.m function does not require any additional code, but the Coverage_test_3Dfault.m script requires disloc3d.m, a matlab wrapper/implementation of the Okada (1992) displacement solutions for a fault in an elastic half-space. This software is freely available from https://pangea.stanford.edu/cdfm/software.
+
 ## License
 This code is licensed under the MIT license. It is free to use and distribute. 
 
@@ -27,7 +30,6 @@ The headers of the main files described above include examples for replicating e
 E.g. for the 1-D fault: 
 
  [out] = mb('simple_bootstrap_test');
-
  [out] = mb('compare_cobe_coble');
 
 For the 3-D fault tests, simply run 
