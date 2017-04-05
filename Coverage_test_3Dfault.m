@@ -49,7 +49,7 @@ fault.mu = 30e9;    % shear modulus in Pa
 
 % data parameters
 data.xlocmod = 5;
-data.sd = 0.001; 
+data.sd = 0.1; 
 
 [fault, data, sig, SIG] = setup_synthetic_problem(fault, data, numModels);
 
