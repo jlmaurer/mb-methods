@@ -85,28 +85,46 @@ function [out] = simple_bootstrap_test ()
     % plot results
     figure; 
     try
-        histogram(out{1}.Potency, 'normalization','pdf')
-        hold on
-        histogram(out{2}.Potency, 'normalization','pdf')
-        histogram(out{3}.Potency, 'normalization','pdf')
-        histogram(out{4}.Potency, 'normalization','pdf')
+        subplot(2,2,1), histogram(out{1}.Potency, 'normalization','pdf'), hold on
+        title('High noise, far station'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
+        subplot(2,2,2), histogram(out{2}.Potency, 'normalization','pdf'), hold on
+        title('Low noise, far stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
+        subplot(2,2,3), histogram(out{3}.Potency, 'normalization','pdf'), hold on
+        title('HIgh noise, close stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
+        subplot(2,2,4), histogram(out{4}.Potency, 'normalization','pdf'), hold on
+        title('Low noise, Close stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
     catch
         nbins = 15; 
         [h,x] = hist(out{1}.Potency,nbins);
-        bar(x,h./trapz(x,h),'style','histc')
-        hold on
+        subplot(2,2,1), bar(x,h./trapz(x,h),'style','histc'),hold on
+        title('High noise, far station'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
         [h,x] = hist(out{2}.Potency, nbins);
-        bar(x,h./trapz(x,h),'style','histc')
+        subplot(2,2,2), bar(x,h./trapz(x,h),'style','histc'),hold on
+        title('Low noise, far stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
         [h,x] = hist(out{3}.Potency, nbins);
-        bar(x,h./trapz(x,h),'style','histc')
+        subplot(2,2,3),bar(x,h./trapz(x,h),'style','histc'),hold on
+        title('HIgh noise, close stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+        
         [h,x] = hist(out{4}.Potencynbins);
-        bar(x,h./trapz(x,h),'style','histc')
+        subplot(2,2,4), bar(x,h./trapz(x,h),'style','histc'),hold on
+        title('Low noise, Close stations'), ax = axis; xlim([0,1])
+        plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k');
+       
     end
-    ax = axis; 
-    plot([out{1}.True_Potency, out{1}.True_Potency], [ax(3) ax(4)], 'k'); 
-    xlim([0,1])
-    legend('High noise, far station','Low noise, far stations', ...
-        'High noise, close stations','Low noise, Close stations') 
+
 end
 
 % changing N, Naive MCMC (Fig. 4a)
@@ -502,7 +520,7 @@ function [all_potencies] = run_boot (type, data, N, lb, ub, Nboot, G)
    ubs = ub*ones(N,1); 
    lbs = lb*ones(N,1); 
    sd = mean(data.sd);
-   Gw = G./repmat(sd, size(G,1), size(G, 2)); 
+   Gw = G./sd
    dw = data.d./sd;
    nd = length(dw);
    nums = 1:nd;
