@@ -79,9 +79,12 @@ fault.bounds = [zeros(fault.nPatch, 1), rs(:)];
 if nargin < 2, faults = [fault.L, fault.H, 0, -fault.dip, 0, 100,100]; end
 [fault.pm, fault.patch_areas] = make_pm(fault, faults);
 
+% Patch vector, units such that multipled by mm/yr gives N m/yr
+fault.avec = fault.mu*fault.patch_areas'./1000;
+
 % max MDR and true MDR
 % units here are Pa*m^3/yr = N m/yr = moment
-fault.maxM = fault.mu*fault.patch_areas'*rs/1000; 
+fault.maxM = fault.avec*rs; 
 fault.truM = (fault.nLock/fault.nPatch)*fault.maxM; 
 end
 

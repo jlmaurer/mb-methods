@@ -1,9 +1,6 @@
 function [results] = bootstrap (Nboot, numModels,fault,  data,solver_opts, flag)
 % This function runs the bootstrap method
 
-% Patch vector, units such that multipled by mm/yr gives N m/yr
-Aeq = fault.mu*fault.patch_areas'./1000;
-
 % setup bootstrap loop 
 all_potencies = zeros(Nboot, numModels); 
 [m,n] = size(data.G);
@@ -26,7 +23,7 @@ for outer_loop = 1:numModels
         
         mhat = lsqlin(Gboot, dboot, [],[], [],[],faults.bounds(:,1),...
             faults.bounds(:,2), [], solver_opts);
-        all_potencies(inner_loop,outer_loop) = Aeq*mhat;
+        all_potencies(inner_loop,outer_loop) = fault.avec*mhat;
     end
 end
 results.Potencies = all_potencies;

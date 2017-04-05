@@ -60,11 +60,11 @@ conf_levels = [10 20 30 40 50 60 70 80 90 95 99];
 %% Run the Test
 switch test_type
     case 1
-        % number of bootstrap samples in each distribution
+        % number of bootstrap   samples in each distribution
         Nboot = 400;     
         
         % call bootstrap function
-         [results] = bootstrapping_test_function (Nboot, numModels,fault, ...
+         [results] = bootstrap(Nboot, numModels,fault, ...
              data,solver_opts, flag);
     case 2
         % number of Mtest on the interval [0, maxM]

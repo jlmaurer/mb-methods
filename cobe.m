@@ -5,7 +5,7 @@ function [results] = cobe (data, fault, nPs, numModels, solver_opts)
 Mtest = linspace(0, fault.maxM, nPs);
 
 % Patch vector, units such that multipled by mm/yr gives N m/yr
-Aeq = fault.mu*fault.patch_areas'./1000;
+Aeq = fault.avec; 
 
 % Run ucurve coverage
 [all_chi2s,out]= deal(zeros(nPs, numModels)); 
