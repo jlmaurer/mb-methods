@@ -4,7 +4,7 @@ function [results] = bootstrap (Nboot, numModels,fault,  data,solver_opts, flag)
 % setup bootstrap loop 
 all_potencies = zeros(Nboot, numModels); 
 [m,n] = size(data.G);
-nums = linspace(1,lbd, lbd)';
+nums = linspace(1,m, m)';
 
 % iterate over slip models 
 for outer_loop = 1:numModels
@@ -21,8 +21,8 @@ for outer_loop = 1:numModels
             Gboot = data.GG;
         end
         
-        mhat = lsqlin(Gboot, dboot, [],[], [],[],faults.bounds(:,1),...
-            faults.bounds(:,2), [], solver_opts);
+        mhat = lsqlin(Gboot, dboot, [],[], [],[],fault.bounds(:,1),...
+            fault.bounds(:,2), [], solver_opts);
         all_potencies(inner_loop,outer_loop) = fault.avec*mhat;
     end
 end

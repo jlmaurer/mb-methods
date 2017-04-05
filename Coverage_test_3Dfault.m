@@ -4,13 +4,13 @@ clear
 %% Method to use for the coverage test
 %test_type =1;  % Bootstrapping (can be residual or data)
 %test_type =2;  % COBE
-test_type = 2; 
+test_type = 1; 
 
 % if flag = 1, use the data bootstrap. Otherwise use the residual bootstrap
-flag = 0; 
+boot_type_flag = 0; 
 
 %% Number of pdfs to make
-numModels = 100;
+numModels = 1;
 
 %% Set fault geometry
 % Use the following tests to replicate the paper figures: 
@@ -49,7 +49,7 @@ fault.mu = 30e9;    % shear modulus in Pa
 
 % data parameters
 data.xlocmod = 5;
-data.sd = 0.1; 
+data.sd = 0.001; 
 
 [fault, data, sig, SIG] = setup_synthetic_problem(fault, data, numModels);
 
@@ -64,7 +64,7 @@ switch test_type
         Nboot = 400;     
         
         % call bootstrap function
-         [results] = bootstrap(Nboot, numModels,fault,data,solver_opts, flag);
+         [results] = bootstrap(Nboot, numModels,fault,data,solver_opts, boot_type_flag);
     case 2
         % number of Mtest on the interval [0, maxM]
         nPs = 200; 
@@ -74,7 +74,7 @@ switch test_type
 end
 
 results.truM = fault.truM; 
-[emp_perc] = coverage(results, conf_level, numModels, test_type);
+[emp_perc] = coverage(results, conf_levels, numModels, test_type);
 
 %% Plot Results
 
