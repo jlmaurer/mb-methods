@@ -64,8 +64,7 @@ switch test_type
         Nboot = 400;     
         
         % call bootstrap function
-         [results] = bootstrap(Nboot, numModels,fault, ...
-             data,solver_opts, flag);
+         [results] = bootstrap(Nboot, numModels,fault,data,solver_opts, flag);
     case 2
         % number of Mtest on the interval [0, maxM]
         nPs = 200; 
