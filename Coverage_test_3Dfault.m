@@ -10,7 +10,7 @@ test_type = 1;
 boot_type_flag = 0; 
 
 %% Number of pdfs to make
-numModels = 1;
+numModels = 200;
 
 %% Set fault geometry
 % Use the following tests to replicate the paper figures: 
