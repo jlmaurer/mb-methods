@@ -63,7 +63,7 @@ end
 function [out] = simple_bootstrap_test ()
 
     % parameters to test
-    snrs = [2,50];
+    snrs = [2,200];
     snr.type = 'snr';
     xobs1 = [.04:.005:.1]; 
     xobs2 = xobs1+1; 
